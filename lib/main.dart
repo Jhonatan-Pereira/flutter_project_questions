@@ -6,32 +6,41 @@ main() => runApp(PerguntaApp());
 
 class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
+  var _pontuacaoTotal = 0;
 
-  void _responder() {
+  void _responder(int pontuacao) {
     if (temPerguntaSelecionada) {
       setState(() {
         _perguntaSelecionada++;
+        _pontuacaoTotal += pontuacao;
       });
     }
+  }
+
+  void _reiniciarQuestionario() {
+    setState(() {
+      _perguntaSelecionada = 0;
+      _pontuacaoTotal = 0;
+    });
   }
 
   final List<Map<String, Object>> _perguntas = const [
     {
       'texto': 'Qual é a sua cor favorita?',
       'respostas': [
-        {'texto': 'Preto', 'nota': 10 },
-        {'texto': 'Vermelho', 'nota': 5 },
-        {'texto': 'Azul', 'nota': 3 },
-        {'texto': 'Branco', 'nota': 1 },
+        {'texto': 'Preto', 'pontuacao': 10 },
+        {'texto': 'Vermelho', 'pontuacao': 5 },
+        {'texto': 'Azul', 'pontuacao': 3 },
+        {'texto': 'Branco', 'pontuacao': 1 },
       ]
     },
     {
       'texto': 'Qual é o seu animal favorito?',
       'respostas': [
-        { 'texto': 'Coelho', 'nota': 10 },
-        { 'texto': 'Cachorro', 'nota': 5 },
-        { 'texto': 'Gato', 'nota': 3 },
-        { 'texto': 'Papagaio', 'nota': 1 },
+        { 'texto': 'Coelho', 'pontuacao': 10 },
+        { 'texto': 'Cachorro', 'pontuacao': 5 },
+        { 'texto': 'Gato', 'pontuacao': 3 },
+        { 'texto': 'Papagaio', 'pontuacao': 1 },
       ]
     },
   ];
@@ -53,7 +62,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
                 perguntaSelecionada: _perguntaSelecionada,
                 quandoResponder: _responder,
               )
-            : Resultado(),
+            : Resultado(_pontuacaoTotal, _reiniciarQuestionario),
       ),
     );
   }
