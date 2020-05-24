@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import './questao.dart';
-import './resposta.dart';
+import './questonario.dart';
 import './resultado.dart';
 
 main() => runApp(PerguntaApp());
@@ -19,11 +18,21 @@ class _PerguntaAppState extends State<PerguntaApp> {
   final List<Map<String, Object>> _perguntas = const [
     {
       'texto': 'Qual é a sua cor favorita?',
-      'respostas': ['Preto', 'Vermelho', 'Azul', 'Branco']
+      'respostas': [
+        {'texto': 'Preto', 'nota': 10 },
+        {'texto': 'Vermelho', 'nota': 5 },
+        {'texto': 'Azul', 'nota': 3 },
+        {'texto': 'Branco', 'nota': 1 },
+      ]
     },
     {
       'texto': 'Qual é o seu animal favorito?',
-      'respostas': ['Coelho', 'Cachorro', 'Gato', 'Papagaio']
+      'respostas': [
+        { 'texto': 'Coelho', 'nota': 10 },
+        { 'texto': 'Cachorro', 'nota': 5 },
+        { 'texto': 'Gato', 'nota': 3 },
+        { 'texto': 'Papagaio', 'nota': 1 },
+      ]
     },
   ];
 
@@ -33,23 +42,16 @@ class _PerguntaAppState extends State<PerguntaApp> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> respostas = temPerguntaSelecionada
-        ? _perguntas[_perguntaSelecionada]['respostas']
-        : null;
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text('Perguntas'),
         ),
         body: temPerguntaSelecionada
-            ? Column(
-                children: <Widget>[
-                  Questao(_perguntas[_perguntaSelecionada]['texto']),
-                  ...respostas
-                      .map((texto) => Resposta(texto, _responder))
-                      .toList(),
-                ],
+            ? Questionario(
+                perguntas: _perguntas,
+                perguntaSelecionada: _perguntaSelecionada,
+                quandoResponder: _responder,
               )
             : Resultado(),
       ),
